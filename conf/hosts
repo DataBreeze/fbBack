@@ -1,0 +1,23 @@
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1		localhost.localdomain localhost
+::1		localhost6.localdomain6 localhost6
+74.95.197.233	ns2.datafree.com	ns2
+74.95.197.234	ns.datafree.com		ns
+74.95.197.235	ns4.datafree.com	ns4
+
+74.95.197.234	db.fishblab.com		db
+74.95.197.235	www.fishblab.com
+74.95.197.235	fish.fishblab.com
+74.95.197.235	area.fishblab.com
+74.95.197.234	back.fishblab.com
+
+10.210.110.111        internal.relocationcentral.com
+10.210.110.113        my.apartmentsearch.com
+10.210.110.92        www.apartmentsearch.com
+#10.210.130.9        fbsd-back-dev01
+#10.210.110.146        fbsd-app-dev01
+#10.101.63.20        fbsd-tickler-dev01
+#10.210.110.114        rdf0000
+
+

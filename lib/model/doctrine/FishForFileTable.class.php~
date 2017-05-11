@@ -1,0 +1,17 @@
+<?php
+
+class FishForFileTable extends Doctrine_Table{
+
+  public static function getInstance(){
+    return Doctrine_Core::getTable('FishForFile');
+  }
+
+  public function addFish($p){
+    $fish = new FishForFile();
+    $fish->setFileId($p['file_id']);
+    $fish->setFishId($p['fish_id']);
+    $fish->save();
+    return $fish;
+  }
+
+}

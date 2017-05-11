@@ -1,0 +1,20 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+all:
+  metas:
+    title:         FishBlab Map
+    description:   Fishing Discussion, Fishing Reports, Fishing Locations, Fish Catch Data and charts 
+    keywords:      Fishing,fish,fish species,catch fish,find fish,locate fishing spots,fish data,fish species,fish graphs,fish charts
+    #language:     en
+    #robots:       index, follow
+    viewport:      'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+    #viewport:      'user-scalable=no'
+    #viewport:      'initial-scale=1.0, user-scalable=no'
+    #viewport:      'width=device-width'
+
+  stylesheets:    []
+  javascripts:    []
+
+  has_layout:     true
+  layout:         layout_map

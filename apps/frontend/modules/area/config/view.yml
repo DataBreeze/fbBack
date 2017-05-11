@@ -1,0 +1,17 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+all:
+  metas:
+    title:         FishBlab Area Explorer
+    description:   View Historical Fish catch data on a dynamic map
+    keywords:      Fishing,fish,fish species,catch fish,find fish,locate fishing spots
+    #language:     en
+    #robots:       index, follow
+    viewport:      'initial-scale=1.0, user-scalable=no'
+
+  stylesheets:    []
+  javascripts:    []
+
+  has_layout:     true
+  layout:         layout

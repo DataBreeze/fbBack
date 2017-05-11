@@ -1,0 +1,2 @@
+<?php if($status['error']) : ?>
+    <h1>Error:<?php echo $stat['desc'] ?></h1>

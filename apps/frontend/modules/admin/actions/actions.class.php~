@@ -1,0 +1,133 @@
+<?php
+
+/**
+ * admin actions.
+ *
+ * @package    fb
+ * @subpackage admin
+ * @author     Your name here
+ * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ */
+class adminActions extends sfActions{
+
+  public function preExecute(){
+    $this->fbLib = new fbLib();
+    $this->user = $this->fbLib->restoreUser();
+    $this->loc = $this->fbLib->getLoc();
+    $this->cfg = array('page' => 'promo');
+    $this->footer = array();
+  }
+
+  public function initFooter(){
+    $this->footer['json_user'] = json_encode($this->fbLib->userSafe($this->user));
+    $this->footer['json_cfg'] = json_encode($this->cfg);
+    $this->footer['json_loc'] = json_encode($this->loc);
+  }
+
+  public function executeIndex(sfWebRequest $request){
+    $status = $this->verify();
+    $p = array();
+    if($ret['error']){
+      
+    }else{
+      
+    }
+    $p['stops'] = Doctrine_Core::getTable('PromoStop')->getAll();
+    $p['promos'] = Doctrine_Core::getTable('Promo')->getAll();
+    $this->p = $p;
+    $this->status = $status;
+    $this->initFooter();
+  }
+
+  public function verify(){
+    $ret = array('error' => True,'desc' => 'Error in promo');
+    if($this->user['id']){
+      if($this->user['fb_status'] == 82){
+	$ret['error'] = False;
+	$ret['desc'] = 'Permitted';
+      }else{
+	$ret['desc'] = 'User does not have access privileges';
+      }
+    }else{
+      $ret['desc'] = 'User not logged in';
+    }
+    return $ret;
+  }
+
+  public function executeAPromoNew(sfWebRequest $request){
+    $this->setLayout(null);
+    $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+    $ret = array('error' => True, 'status' => 'fail');
+    if($this->user['id']){
+      $post = $this->paramInit();
+      $post['geo'] = $this->fbLib->boundsFromRequest();
+      $report = Doctrine_Core::getTable('Report')->addReport($post);    
+      $report_id = $report['id'];
+      if($report_id > 0){
+	$ret['status'] = 'ok';
+	$ret['error'] = False;
+	$ret['report_id'] = $report_id;
+	$ret['record'] = $report;
+      }else{
+	$ret['desc'] = 'Database Insert Failed';
+      }
+    }else{
+      $ret['desc'] = 'User not logged in';
+    }
+    $json = json_encode($ret);
+    return $this->renderText($json);
+  }
+
+  public function executePromo(sfWebRequest $request){
+    $ret = array('error' => True,'desc' => 'Error in promo');
+    if($this->user['id']){
+      if($this->user['fb_status'] == 82){
+	if($request->hasParameter('email_to')){
+	  $p = array();
+	  $p['email_to'] = $request->getParameter('email_to');
+	  $p['name_to'] = $request->getParameter('name_to');
+	  if($request->hasParameter('subject')){	  
+	    $p['subject'] = $request->getParameter('subject');
+	  }else{
+	    $p['subject'] = 'Hello from www.FishBlab.com';
+	  }
+	  $p['email_from'] = 'joe@fishblab.com';
+	  $p['name_from'] ='Joe Junkin';
+	  if(Doctrine_Core::getTable('PromoStop')->getStop($p['email_to'])){
+	    $ret['desc'] = $p['email_to'] . ' has unsubscribed';
+	  }else{
+	    $past_promo = Doctrine_Core::getTable('Promo')->getByEmail($p['email_to']);
+	    if($past_promo){
+	      $ret['desc'] = 'Promo has already been sent to ' . $p['email_to'];
+	    }else{
+	      $new_promo = Doctrine_Core::getTable('Promo')->newPromo($p);
+	      if(True){
+		$ret['error'] = False;		
+	      }else{
+		
+		$ret['date'] = $new_promo['date'];
+		$ret['error'] = False;
+		$ret['desc'] = 'Promo message sent!';
+		$mailer = $this->getMailer();
+		$body = $this->getPartial('promoMail',array('p' => $p));
+		$mail = $mailer->compose($p['email_from'],$p['email_to'],$p['subject'],$body);
+		$mailer->send($mail);
+		
+	      }
+
+	    }
+	  }
+	}else{
+	  $ret['desc'] = 'Email parameter was not sent';
+	}
+      }else{
+	$ret['desc'] = 'User does not have access privileges ' . $this->user['fb_status'];
+      }
+    }else{
+      $ret['desc'] = 'User not logged in';
+    }
+    $this->p = $p;
+    $this->status = $ret;
+  }
+
+}

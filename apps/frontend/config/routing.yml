@@ -1,0 +1,537 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+user_promo_stop:
+  url:   /user/promoStop/:email
+  param: { module: admin, action:promoStop }
+  requirements: { email: '^[\w.-_\@]+$' }
+
+map_index:
+  url:   /map/
+  param: { module: map, action: index }
+
+map_state:
+  url:   /map/:state
+  param: { module: map, action: index }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+map_activity_id:
+  url:   /map/:activity/:id
+  param: { module: map }
+  requirements: { activity: '^[pcdgrs]$', id:'^\d+$' }
+
+map_activity_username:
+  url:   /map/u/:username
+  param: { module: map }
+  requirements: { username: '^[\w\s\d\-\_]+$' }
+
+map_activity:
+  url:   /map/:activity
+  param: { module: map }
+  requirements: { activity: '^[acgprsu]\/?$' }
+
+map_opt:
+  url:   /map/opt/:option
+  param: { module: map, action: index }
+
+map_action_slash:
+  url:   /map/:action/
+  param: { module: map }
+
+map_action:
+  url:   /map/:action
+  param: { module: map }
+
+mobile_index:
+  url:   /mob/
+  param: { module: mobile, action: index }
+
+mobile_mode:
+  url:   /mob/:mode
+  param: { module: mobile, action:index }
+  requirements: { mode: '^(u|a|p)\/?$' }
+
+mobile_page_menu:
+  url:   /mob/pageMenu.html
+  param: { module: mobile, action: pageMenu }
+
+mobile_sub_page:
+  url:   /mob/:subPage
+  param: { module: mobile }
+  requirements: { subPage: '\#[\w\d\_\-]+$' }
+
+mobile_user_profile:
+  url:   /mob/u/:username
+  param: { module: mobile }
+  requirements: { username: '[\w\d\_\-\.]+\/?$' }
+
+mobile_ajax:
+  url:   /mob/a/:action
+  param: { module: mobile }
+
+mobile_page:
+  url:   /mob/:pageName
+  param: { module: mobile, action:page }
+  requirements: { pageName: '[\w\_\-]+\.html$' }
+
+mobile_activity:
+  url:   /mob/act/*
+  param: { module: mobile, action:index }
+
+page_reset:
+  url:   /reset/:reset_id/:reset_code
+  param: { module: page, action:index }
+
+page_index:
+  url:   /
+  param: { module: page, action: index, country: USA }
+
+page_state:
+  url:   /:state
+  param: { module: page, action: state }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+page_state_full:
+  url:   /:state
+  param: { module: page, action: state }
+  requirements: { state: '^(Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|District(\%20|\+| )of(\%20|\+| )Columbia|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New(\%20|\+| )Hampshire|New(\%20|\+| )Jersey|New(\%20|\+| )Mexico|New(\%20|\+| )York|North(\%20|\+| )Carolina|North(\%20|\+| )Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode(\%20|\+| )Island|South(\%20|\+| )Carolina|South(\%20|\+| )Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West(\%20|\+| )Virginia|Wisconsin|Wyoming)\/?$' }
+
+page_state_allfish:
+  url:   /:state/allFish
+  param: { module: page, action: stateFish }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+page_state_allcities:
+  url:   /:state/allCities
+  param: { module: page, action: stateCities }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+page_state_city:
+  url:   /:state/:city
+  param: { module: page, action: city }
+  requirements: { state: '^[A-Z][A-Z]$'}
+
+page_state_city_slash:
+  url:   /:state/:city/
+  param: { module: page, action: city }
+  requirements: { state: '^[A-Z][A-Z]$'}
+
+page_state_city_site:
+  url:   /:state/:city/:site
+  param: { module: page, action: site }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+page_action:
+  url:   /:action
+  param: { module: page }
+
+area_ajax:
+  url:   /area/a/:action
+  param: { module: area }
+
+area_city:
+  url:   /area/:state/:city
+  param: { module: page, action: city }
+
+area_state:
+  url:   /area/:state
+  param: { module: page, action: state }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+area_loc:
+  url:   /area/:loc
+  param: { module: page, action: index }
+
+area_index:
+  url:   /area/
+  param: { module: page, action: index, country: USA }
+
+html_pages:
+  url:   /page/:pageName
+  param: { module: page, action: html }
+  requirements: { page: '[\w\_\-]+\.html$' }
+
+html_pages_ajax:
+  url:   /page/a/:pageName
+  param: { module: page, action: APage }
+
+user_opt:
+  url:   /user/opt/:action
+  param: { module: user }
+
+user_ajax:
+  url:   /user/a/:action
+  param: { module: user }
+
+user_index:
+  url:   /user/
+  param: { module: page, action: userAll, country: USA }
+
+user_state_city_username:
+  url:   /user/:state/:city/:username
+  param: { module: page, action: userOne }
+  requirements: { state: '^[A-Z][A-Z]\/?$', username:'^[\w\d\s\-\_]+$' }
+
+user_state_username:
+  url:   /user/:state/:username
+  param: { module: page, action: userOne }
+  requirements: { state: '^[A-Z][A-Z]\/?$', username:'^[\w\d\s\-\_]+$' }
+
+user_state_city:
+  url:   /user/:state/:city
+  param: { module: page, action: userAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+user_state_city_slash:
+  url:   /user/:state/:city/
+  param: { module: page, action: userAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+user_state:
+  url:   /user/:state
+  param: { module: page, action: userAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+user_id:
+  url:   /user/:username
+  param: { module: page, action: userOne }
+  requirements: { username:'^[\w\d\s\-\_]+$' }
+
+group_ajax:
+  url:   /group/a/:action
+  param: { module: group }
+
+group_index:
+  url:   /group/
+  param: { module: page, action: groupAll, country: USA }
+
+group_id:
+  url:   /group/:id
+  param: { module: page, action: groupOne }
+  requirements: { id:'^(\d)+$' }
+
+group_state_city_id:
+  url:   /group/:state/:city/:id
+  param: { module: page, action: groupOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+group_state_id:
+  url:   /group/:state/:id
+  param: { module: page, action: groupOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+group_state_city:
+  url:   /group/:state/:city
+  param: { module: page, action: groupAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+group_state_city_slash:
+  url:   /group/:state/:city/
+  param: { module: page, action: groupAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+group_state:
+  url:   /group/:state
+  param: { module: page, action: groupAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+disc_ajax:
+  url:   /disc/a/:action
+  param: { module: disc }
+
+disc_index:
+  url:   /disc/
+  param: { module: page, action: discAll, country: USA }
+
+disc_id:
+  url:   /disc/:id
+  param: { module: page, action: discOne }
+  requirements: { id:'^\d+$' }
+
+disc_state_city_id:
+  url:   /disc/:state/:city/:id
+  param: { module: page, action: discOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+disc_state_id:
+  url:   /disc/:state/:id
+  param: { module: page, action: discOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+disc_state_city:
+  url:   /disc/:state/:city
+  param: { module: page, action: discAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+disc_state_city_slash:
+  url:   /disc/:state/:city/
+  param: { module: page, action: discAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+disc_state:
+  url:   /disc/:state
+  param: { module: page, action: discAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+disc_year_month_day:
+  url:   /disc/:year/:month/:day/:id
+  param: { module: page, action: discOne }
+  requirements: { year: '^20\d\d$', month:'^\d{1,2}$', day:'^\d{1,2}$', id:'^\d+$' }
+
+disc_action:
+  url:   /disc/:action
+  param: { module: disc }
+
+catch_ajax:
+  url:   /catch/a/:action
+  param: { module: report }
+
+catch_id:
+  url:   /catch/:id
+  param: { module: page, action: reportOne }
+  requirements: { id:'^\d+$' }
+
+catch_state_id:
+  url:   /catch/:state/:id
+  param: { module: page, action: reportOne }
+  requirements: { state: '^[A-Z][A-Z]\/?$', id:'^\d+$' }
+
+catch_city_id:
+  url:   /catch/:state/:city/:id
+  param: { module: page, action: reportOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+catch_state_city:
+  url:   /catch/:state/:city
+  param: { module: page, action: reportAll }
+  requirements: { state: '^[A-Z][A-Z]$'}
+
+catch_state_city_slash:
+  url:   /catch/:state/:city/
+  param: { module: page, action: reportAll }
+  requirements: { state: '^[A-Z][A-Z]$'}
+
+catch_state:
+  url:   /catch/:state
+  param: { module: page, action: reportAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+catch_index:
+  url:   /catch/
+  param: { module: page, action: reportAll, country: USA }
+
+catch_year_month_day_id:
+  url:   /catch/:year/:month/:day/:id
+  param: { module: page, action: reportOne }
+  requirements: { year: '^20\d\d$', month:'^\d{1,2}$', day:'^\d{1,2}$', id:'^\d+$' }
+
+report_ajax:
+  url:   /report/a/:action
+  param: { module: blog }
+
+report_id:
+  url:   /report/:id
+  param: { module: page, action: blogOne }
+  requirements: { id:'^\d+$' }
+
+report_state_id:
+  url:   /report/:state/:id
+  param: { module: page, action: blogOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+report_state_city_id:
+  url:   /report/:state/:city/:id
+  param: { module: page, action: blogOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+report_state_city:
+  url:   /report/:state/:city
+  param: { module: page, action: blogAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+report_state_city_slash:
+  url:   /report/:state/:city/
+  param: { module: page, action: blogAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+report_state:
+  url:   /report/:state
+  param: { module: page, action: blogAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+report_index:
+  url:   /report/
+  param: { module: page, action: blogAll, country: USA }
+
+report_year_month_day_id:
+  url:   /report/:year/:month/:day/:id
+  param: { module:page, action: blogOne }
+  requirements: { year: '^20\d\d$', month:'^\d{1,2}$', day:'^\d{1,2}$', id:'^\d+$' }
+
+spot_ajax:
+  url:   /spot/a/:action
+  param: { module: spot }
+
+spot_index:
+  url:   /spot/
+  param: { module: page, action: spotAll, country: USA }
+
+spot_id:
+  url:   /spot/:id
+  param: { module: page, action: spotOne }
+  requirements: { id:'^\d+$' }
+
+spot_state_id:
+  url:   /spot/:state/:id
+  param: { module: page, action: spotOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+spot_city_id:
+  url:   /spot/:state/:city/:id
+  param: { module: page, action: spotOne }
+  requirements: { state: '^[A-Z][A-Z]$', id:'^\d+$' }
+
+spot_state_city_site:
+  url:   /spot/:state/:city/:site
+  param: { module: page, action: site }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+spot_state_city:
+  url:   /spot/:state/:city
+  param: { module: page, action: spotAll }
+
+spot_state_city_slash:
+  url:   /spot/:state/:city/
+  param: { module: page, action: spotAll }
+
+spot_state:
+  url:   /spot/:state
+  param: { module: page, action: spotAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+spot_year_month_day_id:
+  url:   /spot/:year/:month/:day/:id
+  param: { module:page, action: spotOne }
+  requirements: { year: '^20\d\d$', month:'^\d{1,2}$', day:'^\d{1,2}$', id:'^\d+$' }
+
+spot_loc:
+  url:   /spot/:loc
+  param: { module: page, action: spotAll }
+
+fish_ajax:
+  url:   /fish/a/:action
+  param: { module: fish }
+
+fish_index:
+  url:   /fish/
+  param: { module: page, action: fishAll, country: USA}
+
+fish_name_state_city:
+  url:   /fish/:fishname/:state/:city
+  param: { module: page, action: fishOne }
+  requirements: { fishname: '[\w\s\+(\%20)\-]+', state: '^[A-Z][A-Z]$' }
+
+fish_name_state_city_site:
+  url:   /fish/:fishname/:state/:city/:site
+  param: { module: page, action: fishOne }
+  requirements: { fishname: '[\w\s\+(\%20)\-]+', state: '^[A-Z][A-Z]$' }
+
+fish_name_state_fish:
+  url:   /fish/:fishname/:state
+  param: { module: page, action: fishOne }
+  requirements: { fishname: '[\w\s\+(\%20)\-]+', state: '^[A-Z][A-Z]$' }
+
+fish_state:
+  url:   /fish/:state
+  param: { module: page, action: fishAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+fish_name:
+  url:   /fish/:fishname
+  param: { module: page, action: fishOne, country: USA }
+  requirements: { fishname: '[\w\s\+(\%20)\-]+\/?' }
+
+fish_state_city:
+  url:   /fish/:state/:city
+  param: { module: page, action: fishAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+file_ajax:
+  url: /file/a/:action
+  param: { module:file }
+
+file:
+  url: /file/:action
+  param: { module:file }
+
+photo_ajax:
+  url:   /photo/a/:action
+  param: { module: photo }
+
+photo_id:
+  url:   /photo/:id
+  param: { module: page, action: photoOne }
+  requirements: { id:'^\d+$' }
+
+photo_state_id:
+  url:   /photo/:state/:id
+  param: { module: page, action: photoOne }
+  requirements: { state: '^[A-Z][A-Z]\/?$', id:'^\d+$' }
+
+photo_state_city:
+  url:   /photo/:state/:city
+  param: { module: page, action: photoAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+photo_state_city_slash:
+  url:   /photo/:state/:city/
+  param: { module: page, action: photoAll }
+  requirements: { state: '^[A-Z][A-Z]$' }
+
+photo_city_id:
+  url:   /photo/:state/:city/:id
+  param: { module: page, action: photoOne }
+  requirements: { state: '^[A-Z][A-Z]\/?$', id:'^\d+$' }
+
+photo_state:
+  url:   /photo/:state
+  param: { module: page, action: photoAll }
+  requirements: { state: '^[A-Z][A-Z]\/?$' }
+
+photo_index:
+  url:   /photo/
+  param: { module: page, action: photoAll, country: USA }
+
+photo_year_month_day_id:
+  url:   /photo/:year/:month/:day/:id
+  param: { module: page, action: photoOne }
+  requirements: { year: '^20\d\d$', month:'^\d{1,2}$', day:'^\d{1,2}$', id:'^\d+$' }
+
+photo_loc:
+  url:   /photo/:loc
+  param: { module: page, action: photoAll }
+
+admin_ajax:
+  url:   /admin/a/:action
+  param: { module: admin }
+
+admin_index:
+  url:   /admin
+  param: { module: admin, action: index }
+
+admin_index_slash:
+  url:   /admin/
+  param: { module: admin, action: index }
+
+admin_action:
+  url:   /admin/:action
+  param: { module: admin }
+
+admin_action_id:
+  url:   /admin/:action/:id
+  param: { module: admin }
+  requirements: { id:'^\d+$' }
+
+default:
+  url:   /*
+  param: { module: page, action: index }

@@ -1,0 +1,1 @@
+<div class="copyright">Copyright 2012 FishBlab</div>

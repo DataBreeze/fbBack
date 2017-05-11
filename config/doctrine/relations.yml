@@ -1,0 +1,188 @@
+CatchByMonth:
+  relations:
+    Site:  { local: int_site_id, foreign: id }
+    FishSpecies:  { local: fish_id, foreign: id }
+
+CatchByFishMonth:
+  relations:
+    FishSpecies:  { local: fish_id, foreign: id }
+
+CatchByFish:
+  relations:
+    FishNames:  { local: fish_id, foreign: fish_id }
+
+FishNames:
+  relations:
+    FishSpecies:  { local: fish_id, foreign: id }
+    CatchByFish:  { local: fish_id, foreign: fish_id }
+
+FishSpecies:
+  relations:
+    FishNames:  { local: id, foreign: fish_id }
+
+Disc:
+  relations:
+    FishForDisc:  { local: id, foreign: pid, type:one, foreignType:many }
+    User:  { local: user_id, foreign: id }
+    UserGroup: { local:group_id, foreign:id, type: one, foreignType:many}
+    DiscReply: { local:id, foreign:pid, type:one, foreignType:many }
+
+DiscReply:
+  relations:
+    Disc: { local:pid, foreign:id, type:many, foreignType:one }
+    User:  { local: user_id, foreign: id }
+
+Report:
+  relations:
+    FileForReport:  { local: id, foreign: report_id, type:one, foreignType:many }
+    User:  { local: user_id, foreign: id }
+    UserGroup: { local:group_id, foreign:id, type: one, foreignType:many}
+    ReportReply: { local:id, foreign:pid, type:one, foreignType:many }
+    Fish: { local:fish_id, foreign:id, type:one, foreignType:many }
+    FishForReport:  { local: id, foreign: pid, type:one, foreignType:many }
+
+ReportReply:
+  relations:
+    Report: { local:pid, foreign:id, type:many, foreignType:one }
+    User:  { local: user_id, foreign: id }
+
+Blog:
+  relations:
+    FileForBlog:  { local: id, foreign: blog_id, type:one, foreignType:many }
+    User:  { local: user_id, foreign: id }
+    UserGroup: { local:group_id, foreign:id, type: one, foreignType:many}
+    BlogReply: { local:id, foreign:pid, type:one, foreignType:many }
+    FishForBlog:  { local: id, foreign: pid, type:one, foreignType:many }
+
+BlogReply:
+  relations:
+    Blog: { local:pid, foreign:id, type:many, foreignType:one }
+    User:  { local: user_id, foreign: id }
+
+Spot:
+  relations:
+    FileForSpot:  { local: id, foreign: spot_id, type:one, foreignType:many }
+    User:  { local: user_id, foreign: id }
+    UserGroup: { local:group_id, foreign:id, type: one, foreignType:many}
+    SpotReply: { local:id, foreign:pid, type:one, foreignType:many }
+    FishForSpot:  { local: id, foreign: pid, type:one, foreignType:many }
+
+SpotReply:
+  relations:
+    Spot: { local:pid, foreign:id, type:many, foreignType:one }
+    User:  { local: user_id, foreign: id }
+
+File:
+  relations:
+    FileForSpot: { local: id, foreign: file_id, type: one, foreignType: many}
+    FileForBlog: { local: id, foreign: file_id, type: one, foreignType: many}
+    FileForReport: { local: id, foreign: file_id, type: one, foreignType: many}
+    FileForDisc: { local: id, foreign: file_id, type: one, foreignType: many}
+    User:  { local: user_id, foreign: id }
+    UserGroup: { local:group_id, foreign:id, type: one, foreignType:many}
+    FileReply: { local:id, foreign:pid, type:one, foreignType:many }
+    FishForFile:  { local: id, foreign: pid, type:one, foreignType:many }
+
+FileReply:
+  relations:
+    File: { local:pid, foreign:id, type:many, foreignType:one }
+    User:  { local: user_id, foreign: id }
+
+FileForSpot:
+  relations:
+    Spot: { local: spot_id, foreign: id, type: one, foreignType: many }
+    File: { local: file_id, foreign: id, type: one, foreignType: many }
+
+FileForBlog:
+  relations:
+    Blog: { local: blog_id, foreign: id, type: one, foreignType: many }
+    File: { local: file_id, foreign: id, type: one, foreignType: many }
+
+FileForReport:
+  relations:
+    Report: { local: report_id, foreign: id, type: one, foreignType: many }
+    File: { local: file_id, foreign: id, type: one, foreignType: many }
+
+FileForDisc:
+  relations:
+    Disc: { local: disc_id, foreign: id, type: one, foreignType: many }
+    File: { local: file_id, foreign: id, type: one, foreignType: many }
+
+UserForFriend:
+  relations:
+    User: { local: friend_id, foreign: id, type: one, foreignType: many }
+
+Site:
+  relations:
+    State:  { local: state, foreign: state }
+
+State:
+  relations:
+    CatchByState: { local: state, foreign: state }
+
+User:
+  relations:
+    UserType:  { local: utype, foreign: id }
+    UserNotify: { local:id, foreign:user_id }
+    UserForGroup: { local:id, foreign:user_id }
+    UserForGroupReq: { local:id, foreign:user_id }
+    UserForGroupBlock: { local:id, foreign:user_id }
+    UserForFriend: { local:id, foreign:friend_id }
+    UserForFriendReq: { local:id, foreign:user_id }
+    UserForFriendBlock: { local:id, foreign:friend_id }
+    FishForUser:  { local: id, foreign: pid, type:one, foreignType:many }
+
+UserGroup:
+  relations:
+    User:  { local: user_id, foreign: id }
+    UserForGroup: { local:id, foreign:group_id, type: many, foreignType: many}
+    UserForGroupReq: { local:id, foreign:group_id, type: many, foreignType: many}
+    UserForGroupBlock: { local:id, foreign:group_id, type: many, foreignType: many}
+    UserGroupType:  { local: gtype, foreign: id }
+    FishForGroup:  { local: id, foreign: pid, type:one, foreignType:many }
+
+UserForGroup:
+  relations:
+    User: { local:user_id, foreign:id, type: many, foreignType: many}
+    UserGroup: { local:group_id, foreign:id, type: many, foreignType: many}
+
+UserNotify:
+  relations:
+    User:   { local: user_id, foreign: id }
+
+FishForDisc:
+  relations:
+    Disc:  { local: pid, foreign: id, type:many, foreignType:one }
+    Fish:  { local: fish_id, foreign: id, type:many, foreignType:one }
+
+Fish:
+  relations:
+    FishAlias:  { local: id, foreign: fish_id }
+    Report: { local: id, foreign: fish_id }
+    User:  { local: user_id, foreign: id }
+    FishForDisc:  { local: id, foreign: fish_id }
+    FishForReport:  { local: id, foreign: fish_id }
+    FishForBlog:  { local: id, foreign: fish_id }
+    FishForSpot:  { local: id, foreign: fish_id }
+    FishForFile:  { local: id, foreign: fish_id }
+    FishForUser:  { local: id, foreign: fish_id }
+    FishForGroup:  { local: id, foreign: fish_id }
+
+FishAlias:
+  relations:
+    Fish:  { local: fish_id, foreign: id }
+
+Promo:
+  relations:
+    User: { local:user_id, foreign:id}
+    PromoSent: { local:id, foreign:pid}
+
+PromoSent:
+  relations:
+    User: { local:user_id, foreign:id}
+    Promo: { local:pid, foreign:id}
+
+# ./symfony doctrine:build-schema
+# ./symfony doctrine:build-model
+# ./symfony generate:module frontend themodulename
+# $q->getSqlQuery();

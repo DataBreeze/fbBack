@@ -1,0 +1,50 @@
+<?php include_partial('global/header',array('geo' => $geo, 'user' => $user, 'cfg' => $cfg )) ?>
+<?php include_partial('global/toolbar',array('geo' => $param['geo']) ) ?>
+<?php include_partial('actPath',array('act' => $act,'rec' => $rec, 'loc' => $loc) ) ?>
+
+<?php if($inactive) : ?>
+
+  <?php if($mustLogOut) : ?>
+  <div class="centerText">
+    <h1 class="pad10 mar10 red">You must log out to activate this account</h1>
+    <p class="mar10 pad10">
+      You are currently logged in to FishBlab.com. If you wish to activate this account you must first logout and reload this page.
+    </p>
+
+    <?php else : ?>
+<h1><?php echo $status ?></h1>
+    <div class="centerText">
+      <h1 class="pad10 mar10 red">This User has not been activated.</h1>
+      <p class="mar10 pad10">
+	If you wish to activate this account you must click on the link provided in your email or provide the code below.
+      </p>
+      <form name="activateuser" method="get" action="http://user.fishblab.com/<?php echo $rec['username'] ?>">
+	<input type="text" name="code" value="" />
+	<input type="submit" name="Activate" value="Activate" />
+      </form>
+    </div>
+    <?php endif ?>
+
+<?php else : ?>
+
+<div id="gwOne" class="gwActOne fbBorder5">
+ <?php if( $rec and count($rec) ) : ?>
+    <?php include_partial('activityHead',array('act' => $act, 'rec' => $rec, 'user' => $user) ) ?>
+  <?php include_partial('actOneRec',array('act' => $act, 'rec' => $rec) ) ?>
+  <div class="gwActOneChild floatRight">
+    <img class="gwImg" src="<?php echo fbLib::wwwFilePath(($rec['photo_id'] ? $rec['photo_id'] : fbLib::DEFAULT_PROFILE_PHOTO_ID)) ?>200x200.jpg" border="0" />
+  </div>
+  <br class="clear" />
+ <?php else: ?>
+   <h1 class="red"><?php echo $act['name'] ?> Not Found!</h1>
+ <?php endif ?>
+</div>
+<?php include_partial('actOneChild2',array('act' => $act, 'actAll' => $actAll, 'rec' => $rec) ) ?>
+
+<?php endif ?>
+
+<br class="clear" />
+
+<div class="marBot20">
+  <?php include_partial('footer',$footer) ?>
+</div>

@@ -1,0 +1,17 @@
+<div id="hmFishTop" class="hmTable">
+  <?php if(count($catch) > 0): ?>
+  <div id="catchChart" class="hmChart"></div>
+  <table class="hm" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+	<th>Name</th><th>Avg Weight</th><th>Avg Length</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+	<td><?php echo $catch['name'] ?></td><td><?php echo $catch['avg_weight'] ?></td><td><?php echo $catch['avg_length'] ?></td>
+      </tr>
+    </tbody>
+  </table>
+  <?php endif ?>
+</div>

@@ -1,0 +1,14 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+all:
+  servers:
+    front: ['front1i.fishblab.com', 'front2i.fishblab.com']
+
+dev:
+
+
+prod:
+
+

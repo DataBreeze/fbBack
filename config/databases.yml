@@ -1,0 +1,25 @@
+all:
+  doctrine:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=dbmem.fishblab.com;dbname=fbMem'
+      username: boca
+      password: '1971'
+  doctrine-session:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=db.fishblab.com;dbname=fbSession'
+      username: boca
+      password: '1971'
+  doctrine-discuss:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=db.fishblab.com;dbname=fbMain'
+      username: boca
+      password: '1971'
+  doctrine-geocode:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=db.fishblab.com;dbname=fbGeocode'
+      username: boca
+      password: '1971'

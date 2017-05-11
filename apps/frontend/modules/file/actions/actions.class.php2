@@ -1,0 +1,152 @@
+<?php
+
+/**
+ * file actions.
+ *
+ * @package    fb
+ * @subpackage file
+ * @author     Your name here
+ * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ */
+class fileActions extends sfActions{
+
+  const MAX_FILE_SIZE = 5000000;
+
+  public function executeIndex(sfWebRequest $request){
+    $this->forward('default', 'module');
+  }
+
+  public function executeUpload(sfWebRequest $request){
+    $ret = array('error' => True,'status' => 'fail');
+    if($user_id = $this->getUser()->getAttribute('fbUserId')){
+      if($user = Doctrine_Core::getTable('User')->getUserById($user_id)){
+	if($request->hasParameter('file_type')){
+	  $type = $request->getParameter('file_type');
+	  if($request->hasParameter('entity_id')){   
+	    $id = $request->getParameter('entity_id');
+	    if($type == 'report'){
+	      if($report = Doctrine_Core::getTable('Report')->getReport($id)){
+		if($report['username'] == $user['username']){
+		  
+	      $param = array('report_id' => $id, 'file_id' => $file_id);
+	      Doctrine_Core::getTable('FileForReport')->add($param);
+	    }else if($type == 'something else'){
+	      ## error here
+	    }
+
+	    if($file = $request->getFiles('file')){
+	      $ret['file'] = $file;
+	      $this->debug = 'Name:' . $file['name'] . ' type:' . $file['type'] . ' tmp_name:' . $file['tmp_name'] . ' sz:' . $file['size']; 
+	      if($file['size'] > fileActions::MAX_FILE_SIZE){
+		$ret['error_desc'] = 'over_size_limit';
+		$ret['desc'] = 'Uploaded file is larger than the maximum size allowed.';
+		$ret['detail'] = 'Maximum File Size is: ' . fileActions::MAX_FILE_SIZE .', Uploaded File is: ' . $file['size'];
+		unlink($file['tmp_name']);
+	      }else if(! preg_match('/(jpeg|jpg|gif|png)/i',$file['type']) ){
+		$ret['error_desc'] = 'invalid_type';
+		$ret['desc'] = 'Uploaded file is not an allowed image type (jpg, gif or png))';
+		$ret['detail'] = 'Accepted Image types are: jpg (or jpeg), png or gif<br />Please ensure your file is in one of the formats and it has the proper extension.';
+		unlink($file['tmp_name']);
+	      }else{
+		$ret['status'] = 'ok';
+		$ret['status_desc'] = 'Upload Received';
+		#$ret['file'] = $file;
+		$ret['error'] = False;
+		$ret['desc'] = 'File Upload Finished!';
+		$file['user_id'] = $user_id;
+		if($request->hasParameter('caption')){
+		  $file['caption'] = $request->getParameter('caption');
+		}
+		if($request->hasParameter('keyword')){
+		  $file['keyword'] = $request->getParameter('keyword');
+		}
+		if($request->hasParameter('detail')){
+		  $file['detail'] = $request->getParameter('detail');
+		}
+		$ext = 'jpg';
+		if(preg_match('/png/i',$file['type'])){
+		  $ext = 'png';
+		}elseif(preg_match('/gif/i',$file['type'])){
+		  $ext = 'gif';
+		}
+		if($file_db = Doctrine_Core::getTable('Upload')->addUpload($file)){
+		  $file_id = $file_db['id'];
+		  $ret['fileType'] = $type;
+		  $ret['id'] = $id;
+		  $ret['file_db'] = $file_db;
+		  
+		  ## create file store node (directory of files for this user_id hash indexed to 4 levels)
+		  $str_id = strval($user_id);
+		  $len = strlen($str_id);
+		  $path = '/opt/fb/fbFS/U/' . substr($str_id,0,1) . '/';
+		  if($len > 1){
+		    $path .= substr($str_id,1,1) . '/';
+		    if($len > 2){
+		      $path .= substr($str_id,2,1) . '/';
+		      if($len > 3){
+			$path .= substr($str_id,3,1) . '/';
+		      }
+		    }
+		  }
+		  $path .= 'u_' . $str_id . '/' . 'f_' . $file_id . '/'; 
+		  $file['name_orig'] = $path . 'orig.' . $ext;
+		  mkdir($path,0777,true);
+		  move_uploaded_file($file['tmp_name'],  $file['name_orig']);
+		  ## done building file node
+		  
+		  ## create new resized images with GD
+		  $img = new sfImage($file['name_orig'], $file['type']);
+		  $img->thumbnail(100,100);
+		  $img->setQuality(100);
+		  $img->saveAs($path . 'mini.' . $ext);
+		  $img = new sfImage($file['name_orig'], $file['type']);
+		  $img->thumbnail(200,200);
+		  $img->setQuality(100);
+		  $img->saveAs($path . 'mini2.' . $ext);
+		  $img = new sfImage($file['name_orig'], $file['type']);
+		  $img->thumbnail(400,400);
+		  $img->setQuality(100);
+		  $img->saveAs($path . 'mini3.' . $ext);
+		  $img = new sfImage($file['name_orig'], $file['type']);
+		  $img->thumbnail(600,600);
+		  $img->setQuality(100);
+		  $img->saveAs($path . 'med.' . $ext);
+		  $img = new sfImage($file['name_orig'], $file['type']);
+		  $img->thumbnail(800,800);
+		  $img->setQuality(100);
+		  $img->saveAs($path . 'big.' . $ext);
+		  ## done creating images
+		  ## Doctrine_Core::getTable('Upload')->updateUpload($file_id,array('status' => 2));
+		  
+		  ## rsync the images to the front servers
+		  $status = system('rsync -ra /opt/fb/fbFS/U/ ns4.datafree.com::fbFSUser');
+		  Doctrine_Core::getTable('Upload')->updateUpload($file_id,array('status' => 3));
+		}else{
+		  $ret['error_desc'] = 'upload_db_error';
+		  $ret['desc'] = 'Uploaded file was not saved to the Database';      
+		}
+	      }
+	    }else{
+	      $ret['error_desc'] = 'upload_error';
+	      $ret['desc'] = 'Uploaded file was not recognized';      
+	    }
+	  }else{
+	    $ret['error_desc'] = 'id_missing';
+	    $ret['desc'] = 'Id of the entity is missing';
+	  }
+	}else{
+	  $ret['error_desc'] = 'file_type_missing';
+	  $ret['desc'] = 'The file type paramemter is missing';
+	}
+      }else{
+	$ret['error_desc'] = 'user_not_found_db';
+	$ret['desc'] = 'User not Found';
+      }
+    }else{
+      $ret['error_desc'] = 'user_not_logged_in';
+      $ret['desc'] = 'User not Logged in';
+    }
+    $this->json = json_encode($ret);
+  }
+  
+}

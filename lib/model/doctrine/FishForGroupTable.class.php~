@@ -1,0 +1,17 @@
+<?php
+
+class FishForGroupTable extends Doctrine_Table{
+
+  public static function getInstance(){
+    return Doctrine_Core::getTable('FishForGroup');
+  }
+  
+  public function addFish($p){
+    $fish = new FishForGroup();
+    $fish->setGroupId($p['group_id']);
+    $fish->setFishId($p['fish_id']);
+    $fish->save();
+    return $fish;
+  }
+
+}

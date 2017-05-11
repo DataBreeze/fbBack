@@ -1,0 +1,5 @@
+<?php include_partial('promoEmail1',array('p' => $ret, 'status' => $ret )) ?>
+<br /><hr /><br />
+<form name="promoSendSubmit" action="">
+<input type="submit" name="Send" value="Send" />
+</form>

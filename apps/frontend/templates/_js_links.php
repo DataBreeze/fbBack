@@ -1,0 +1,11 @@
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/jq/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/jq/jquery-ui-1.9.0.custom.min.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/jq/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/jq/jquery.notifyBar.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/fb/fbObjUser.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/fb/fbInit.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/fb/fbLib.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/fb/fbMap.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/fb/fbDialog.js"></script>
+<script type="text/javascript" src="http://map.fishblab.com/js/fb/fbActivity.js"></script>

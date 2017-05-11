@@ -1,0 +1,27 @@
+<div id="start" data-role="page">
+  
+  <div data-role="header">
+    <h1>Create a New Fishing Activity</h1>
+  </div>
+  
+  <div data-role="content" data-theme="c">
+    <ul data-role="listview" data-inset="true">
+      <li data-role="list-divider">Select Activity</li>
+      <li><a href="#newForm?s=photo">Fishing Photo</a></li>
+      <li><a href="#newForm?s=catch">Fish Catch</a></li>
+      <li><a href="#newForm?s=report">Fishing Report</a></li>
+      <li><a href="#newForm?s=spot">Fishing Spot</a></li>
+      <li><a href="#newForm?s=disc">Fishing Discussion</a></li>
+    </ul>
+    <div>
+      <a href="#cancel" data-role="button" data-rel="back" data-theme="c">Cancel</a>    
+    </div>
+  </div>
+  
+</div>
+
+<div id="newForm" data-role="page">
+  
+</div>
+
+<?php include_partial('footer',$footer) ?>

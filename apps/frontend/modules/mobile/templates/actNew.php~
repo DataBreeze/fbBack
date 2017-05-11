@@ -1,0 +1,16 @@
+<div data-role="page">
+   
+  <div data-role="header" data-theme="d">
+    <h1 id="dialogHeader">header</h1>
+  </div>
+
+  <div data-role="content" data-theme="c">
+    <h1 id="dialogCaption">Caption</h1>
+    <div id="dialogContent">
+TESTING 3
+      Lots of content here
+    </div>
+    <a href="dialog?cancel=t" data-role="button" data-rel="back" data-theme="c">Cancel</a>    
+  </div>
+
+</div>
